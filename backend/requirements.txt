@@ -5,3 +5,4 @@ pydantic
 passlib
 python-multipart
 aiofiles
+gunicorn
