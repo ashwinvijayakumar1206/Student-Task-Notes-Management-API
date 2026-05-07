@@ -15,6 +15,7 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 # Task Schemas
 class TaskBase(BaseModel):
@@ -32,6 +33,7 @@ class Task(TaskBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 # Note Schemas
 class NoteBase(BaseModel):
@@ -48,3 +50,4 @@ class Note(NoteBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True
