@@ -5,8 +5,12 @@ from sqlalchemy.orm import Session
 from typing import List
 import os
 
-import models, schemas, crud
-from database import SessionLocal, engine, get_db
+try:
+    import models, schemas, crud
+    from database import SessionLocal, engine, get_db
+except ImportError:
+    from . import models, schemas, crud
+    from .database import SessionLocal, engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
 

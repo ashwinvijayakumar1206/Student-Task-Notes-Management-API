@@ -1,8 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import os
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./student_management.db"
+if os.environ.get("VERCEL"):
+    SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/student_management.db"
+else:
+    SQLALCHEMY_DATABASE_URL = "sqlite:///./student_management.db"
 
 # connect_args={"check_same_thread": False} is needed only for SQLite
 engine = create_engine(
