@@ -16,10 +16,27 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+interface Task {
+  id: number;
+  title: string;
+  description?: string;
+  deadline?: string;
+  is_completed: boolean;
+  owner_id: number;
+}
+
+interface Note {
+  id: number;
+  title: string;
+  content: string;
+  created_at: string;
+  owner_id: number;
+}
+
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [tasks, setTasks] = useState([]);
-  const [notes, setNotes] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [notes, setNotes] = useState<Note[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTab, setModalTab] = useState('task');
   const [loading, setLoading] = useState(true);
@@ -54,7 +71,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleAddTask = async (e) => {
+  const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await fetch(`/api/users/${USER_ID}/tasks/`, {
@@ -76,7 +93,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleAddNote = async (e) => {
+  const handleAddNote = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await fetch(`/api/users/${USER_ID}/notes/`, {
@@ -96,13 +113,13 @@ export default function Dashboard() {
     }
   };
 
-  const deleteTask = async (id) => {
+  const deleteTask = async (id: number) => {
     if (!confirm('Are you sure?')) return;
     await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
     fetchData();
   };
 
-  const deleteNote = async (id) => {
+  const deleteNote = async (id: number) => {
     if (!confirm('Are you sure?')) return;
     await fetch(`/api/notes/${id}`, { method: 'DELETE' });
     fetchData();
@@ -114,8 +131,8 @@ export default function Dashboard() {
         return (
           <div className="space-y-8 animate-in fade-in duration-500">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <StatCard icon={<CheckSquare />} label="Active Tasks" value={tasks.length} color="blue" />
-              <StatCard icon={<BookOpen />} label="Study Notes" value={notes.length} color="purple" />
+              <StatCard icon={<CheckSquare />} label="Active Tasks" value={tasks.length.toString()} color="blue" />
+              <StatCard icon={<BookOpen />} label="Study Notes" value={notes.length.toString()} color="purple" />
               <StatCard icon={<GraduationCap />} label="Academic Progress" value="85%" color="green" />
             </div>
 
@@ -303,7 +320,14 @@ export default function Dashboard() {
   );
 }
 
-function NavItem({ active, onClick, icon, label }) {
+interface NavItemProps {
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+}
+
+function NavItem({ active, onClick, icon, label }: NavItemProps) {
   return (
     <button 
       onClick={onClick}
@@ -315,7 +339,14 @@ function NavItem({ active, onClick, icon, label }) {
   );
 }
 
-function StatCard({ icon, label, value, color }) {
+interface StatCardProps {
+  icon: React.ReactElement;
+  label: string;
+  value: string;
+  color: 'blue' | 'purple' | 'green';
+}
+
+function StatCard({ icon, label, value, color }: StatCardProps) {
   const colors = {
     blue: 'bg-blue-500/20 text-blue-400',
     purple: 'bg-purple-500/20 text-purple-400',
@@ -324,7 +355,7 @@ function StatCard({ icon, label, value, color }) {
   return (
     <div className="glass p-6 rounded-3xl space-y-2 hover:translate-y-[-4px] transition-all">
       <div className={`${colors[color]} w-10 h-10 rounded-xl flex items-center justify-center`}>
-        {React.cloneElement(icon, { size: 24 })}
+        {React.cloneElement(icon, { size: 24 } as any)}
       </div>
       <p className="text-gray-400 text-sm">{label}</p>
       <h3 className="text-2xl font-bold">{value}</h3>
