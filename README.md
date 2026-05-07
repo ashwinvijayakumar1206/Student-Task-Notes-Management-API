@@ -1,21 +1,30 @@
-# 🎓 Student Task & Notes Management API
+# 🎓 Student Hub | Next.js + FastAPI
 
-[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
-[![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=white)](https://www.sqlalchemy.org/)
-
-A robust, industry-standard backend system designed to help students manage their daily academic life. This project bridges the gap between basic coding and professional backend engineering.
+A premium, full-stack platform for students to manage tasks and study notes. Built with **Next.js 14**, **FastAPI**, and **SQLAlchemy**.
 
 ---
 
 ## 🚀 Features
 
-- **User Management**: Secure account creation with password hashing.
-- **Task Tracking**: Create, read, update, and delete tasks with deadlines and completion status.
-- **Notes Repository**: Store and organize learning goals and study notes.
-- **Modular Architecture**: Clean separation of concerns (Models, Schemas, CRUD, Routes).
-- **Auto-Generated Docs**: Interactive API documentation via Swagger UI.
+- **Next.js Dashboard**: A sleek, modern UI with Framer Motion animations.
+- **FastAPI Backend**: Robust serverless API for managing data.
+- **Responsive Design**: Fully optimized for mobile and desktop.
+- **Glassmorphism Aesthetic**: Modern design system using Tailwind CSS.
+
+## 📁 Project Structure
+
+```text
+├── api/             # FastAPI Backend (Serverless Functions)
+│   ├── main.py      # Entry point
+│   ├── models.py    # Database models
+│   └── ...
+├── src/app/         # Next.js Frontend (App Router)
+│   ├── layout.tsx
+│   └── page.tsx
+├── package.json     # Node.js dependencies
+├── requirements.txt # Python dependencies
+└── vercel.json      # Vercel deployment config
+```
 
 ## 🛠️ Tech Stack
 
