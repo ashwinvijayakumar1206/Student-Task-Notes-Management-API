@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-if os.environ.get("VERCEL"):
+if os.environ.get("VERCEL") or os.environ.get("RENDER"):
     SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/student_management.db"
 else:
     SQLALCHEMY_DATABASE_URL = "sqlite:///./student_management.db"
