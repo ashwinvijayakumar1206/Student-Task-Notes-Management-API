@@ -60,13 +60,17 @@ export default function Dashboard() {
         fetch('/api/tasks/'),
         fetch('/api/notes/')
       ]);
-      const tData = await tRes.json();
-      const nData = await nRes.json();
-      setTasks(tData);
-      setNotes(nData);
+      
+      const tData = tRes.ok ? await tRes.json() : [];
+      const nData = nRes.ok ? await nRes.json() : [];
+      
+      setTasks(Array.isArray(tData) ? tData : []);
+      setNotes(Array.isArray(nData) ? nData : []);
       setLoading(false);
     } catch (e) {
-      console.error(e);
+      console.error("Failed to fetch data:", e);
+      setTasks([]);
+      setNotes([]);
       setLoading(false);
     }
   };
