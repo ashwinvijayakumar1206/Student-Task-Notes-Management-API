@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Hub | Task & Notes Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top left, #1a1a2e, #16213e);
+            color: #e9ecef;
+            min-height: 100vh;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .active-tab {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #4cc9f0;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body class="flex overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 glass h-screen flex flex-col p-6 space-y-8 hidden md:flex">
+        <div class="flex items-center space-x-3 mb-4">
+            <div class="bg-blue-500 p-2 rounded-lg">
+                <i data-lucide="graduation-cap" class="text-white"></i>
+            </div>
+            <span class="text-xl font-bold tracking-tight">StudentHub</span>
+        </div>
+
+        <nav class="flex-1 space-y-2">
+            <a href="#" onclick="showSection('dashboard')" id="nav-dashboard" class="flex items-center space-x-3 p-3 rounded-xl transition active-tab">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" onclick="showSection('tasks')" id="nav-tasks" class="flex items-center space-x-3 p-3 rounded-xl transition hover:bg-white/5">
+                <i data-lucide="check-square" class="w-5 h-5"></i>
+                <span>Tasks</span>
+            </a>
+            <a href="#" onclick="showSection('notes')" id="nav-notes" class="flex items-center space-x-3 p-3 rounded-xl transition hover:bg-white/5">
+                <i data-lucide="book-open" class="w-5 h-5"></i>
+                <span>Notes</span>
+            </a>
+        </nav>
+
+        <div class="mt-auto pt-6 border-t border-white/10">
+            <div class="flex items-center space-x-3 p-3 glass rounded-2xl">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold">JD</div>
+                <div>
+                    <p class="text-sm font-medium">John Doe</p>
+                    <p class="text-xs text-gray-400">Student</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 h-screen overflow-y-auto p-8">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-10">
+            <div>
+                <h1 id="section-title" class="text-3xl font-bold">Welcome back, John!</h1>
+                <p class="text-gray-400">Here's what's happening with your studies today.</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="p-2 glass rounded-full hover:bg-white/10 transition">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                </button>
+                <button onclick="openModal()" class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl transition shadow-lg shadow-blue-500/20">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>Quick Add</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Sections -->
+        <div id="dashboard-section" class="space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass p-6 rounded-3xl space-y-2">
+                    <div class="bg-blue-500/20 w-10 h-10 rounded-xl flex items-center justify-center text-blue-400">
+                        <i data-lucide="list-todo" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm">Active Tasks</p>
+                    <h3 id="stat-tasks" class="text-2xl font-bold">--</h3>
+                </div>
+                <div class="glass p-6 rounded-3xl space-y-2">
+                    <div class="bg-purple-500/20 w-10 h-10 rounded-xl flex items-center justify-center text-purple-400">
+                        <i data-lucide="book" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm">Study Notes</p>
+                    <h3 id="stat-notes" class="text-2xl font-bold">--</h3>
+                </div>
+                <div class="glass p-6 rounded-3xl space-y-2">
+                    <div class="bg-green-500/20 w-10 h-10 rounded-xl flex items-center justify-center text-green-400">
+                        <i data-lucide="trending-up" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-gray-400 text-sm">Completion Rate</p>
+                    <h3 class="text-2xl font-bold">85%</h3>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass p-8 rounded-3xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold">Recent Tasks</h2>
+                        <a href="#" onclick="showSection('tasks')" class="text-blue-400 text-sm hover:underline">View all</a>
+                    </div>
+                    <div id="recent-tasks-list" class="space-y-4">
+                        <!-- Tasks will be injected here -->
+                    </div>
+                </div>
+                <div class="glass p-8 rounded-3xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold">Latest Notes</h2>
+                        <a href="#" onclick="showSection('notes')" class="text-blue-400 text-sm hover:underline">View all</a>
+                    </div>
+                    <div id="recent-notes-list" class="space-y-4">
+                        <!-- Notes will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tasks-section" class="hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold">My Tasks</h2>
+            </div>
+            <div id="full-tasks-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- All tasks will be injected here -->
+            </div>
+        </div>
+
+        <div id="notes-section" class="hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold">Study Notes</h2>
+            </div>
+            <div id="full-notes-list" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- All notes will be injected here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Quick Add Modal -->
+    <div id="modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center z-50 p-4">
+        <div class="glass w-full max-w-md rounded-3xl p-8 space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-bold">Add New Entry</h2>
+                <button onclick="closeModal()" class="p-1 hover:bg-white/10 rounded-lg">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <div class="flex space-x-2 bg-white/5 p-1 rounded-xl">
+                <button id="tab-task" onclick="setModalTab('task')" class="flex-1 py-2 rounded-lg bg-blue-600 text-sm font-medium transition">Task</button>
+                <button id="tab-note" onclick="setModalTab('note')" class="flex-1 py-2 rounded-lg hover:bg-white/5 text-sm font-medium transition">Note</button>
+            </div>
+
+            <form id="add-form" class="space-y-4">
+                <div id="task-fields" class="space-y-4">
+                    <input type="text" id="task-title" placeholder="What needs to be done?" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50">
+                    <textarea id="task-desc" placeholder="Details (optional)" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 h-24 focus:outline-none focus:ring-2 focus:ring-blue-500/50"></textarea>
+                    <input type="datetime-local" id="task-deadline" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50">
+                </div>
+                <div id="note-fields" class="space-y-4 hidden">
+                    <input type="text" id="note-title" placeholder="Note title" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50">
+                    <textarea id="note-content" placeholder="Content..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500/50"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-xl font-semibold transition">Save Entry</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
